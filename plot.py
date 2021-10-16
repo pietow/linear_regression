@@ -5,18 +5,22 @@ import plotly.graph_objects as go
 df = pd.read_json("data.json")
 X = list(df.x)
 Y = list(df.y)
-Y2 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+errors_Y = list(df.error_y)
 
 # Create traces
 fig = go.Figure()
-fig.add_trace(go.Scatter(x=X, y=Y, mode="lines+markers", name="lines+markers"))
+fig.add_trace(go.Scatter(x=X, y=Y, error_y=dict(type="data", array=errors_Y, visible=True), mode="markers", name="Experiment"))
+df = pd.read_json("fit.json")
+X = list(df.x)
+Y = list(df.y)
+print(X)
+print(Y)
 fig.add_trace(
     go.Scatter(
         x=X,
-        y=Y2,
-        error_y=dict(type="data", array=[1, 1, 1, 1, 1, 1, 1, 1, 1, 1], visible=True),
-        mode="markers",
-        name="markers",
+        y=Y,
+        mode="lines+markers",
+        name="linear Regression",
     )
 )
 
