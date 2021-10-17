@@ -40,16 +40,28 @@ class Regression {
         let y_fit = this.X.map(x => m * x + b)
 
         // ####################ERROR SUM OF SQUARES ####################
-        let SSE = null
+        let SSE = this.Y.map((Y, id) => (Y - y_fit[id]) ** 2).reduce(
+            (a, c) => a + c
+        )
         // ####################TOTAL SUM OF SQUARES ####################
-        let SSTO = null
-        this.plotlyFit = this.X.reduce( (a,c, id) => {
-            a['x'].push(c)
-            a['y'].push(y_fit[id])
-            a['m'] = m
-            a['b'] = b
-            return a
-        }, {x:[], y:[]}  )
+        let SSTO = this.Y.map(Y => (Y - avgY) ** 2).reduce(
+            (a, c) => a + c
+        )
+        // ####################R^2######################################
+        let r_square = 1 - SSE / SSTO //here must be a bug
+        this.plotlyFit = this.X.reduce(
+            (a, c, id) => {
+                a['x'].push(c)
+                a['y'].push(y_fit[id])
+                a['m'] = m
+                a['b'] = b
+                a['sse'] = SSE
+                a['ssto'] = SSTO
+                a['r_sq'] = r_square
+                return a
+            },
+            { x: [], y: [] }
+        )
         return this.plotlyFit
     }
 
@@ -109,7 +121,8 @@ class Regression {
                 a['y'].push(b[1])
                 a['error_y'].push(b[2])
                 return a
-            },{ x: [], y: [], error_y: [] }
+            },
+            { x: [], y: [], error_y: [] }
         )
         return this.plotlyData
     }
@@ -119,6 +132,6 @@ const loopExp = new Regression(linear)
 let result = loopExp.linearTest(1000, 100)
 loopExp.formatCoors()
 console.log(loopExp.SSR())
-// loopExp.linearFit()
 
-// loopExp.saveAsJSON('fit.json', 'plotlyFit')
+loopExp.saveAsJSON('fit.json', 'plotlyFit')
+loopExp.saveAsJSON('data.json')
