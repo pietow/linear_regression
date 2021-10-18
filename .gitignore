@@ -1,1 +1,6 @@
 config.ini
+/node_modules/
+
+data.json
+
+fit.json

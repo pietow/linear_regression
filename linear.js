@@ -1,4 +1,5 @@
 let fs = require('fs')
+const system = require('system-commands')
 const stats = require('./stats.js')
 ////linear x = O(n)
 const linear = n => {
@@ -49,6 +50,10 @@ class Regression {
         )
         // ####################R^2######################################
         let r_square = 1 - SSE / SSTO //here must be a bug
+
+        // ####################Correlation######################################
+
+        //RESULTS store in data object plotlyFit
         this.plotlyFit = this.X.reduce(
             (a, c, id) => {
                 a['x'].push(c)
@@ -65,23 +70,6 @@ class Regression {
         return this.plotlyFit
     }
 
-    // linearFit(fit_intercept=true) {
-    //     this.X = this.plotlyData.x
-    //     this.Y = this.plotlyData.y
-
-    //     let m = 0.01
-    //     let n = 0
-    //     this.Y_i = this.X.map( x => m * x + n    )
-    //     this.residuals = this.Y.map( (Y, ind) => (Y - this.Y_i[ind]) ** 2)
-    //     console.log(this.Y)
-    //     console.log(this.Y_i)
-    //     console.log(this.residuals)
-    //     this.plotlyFit = this.X.reduce( (a,b, ind) => {
-    //         a['x'].push(b)
-    //         a['y'].push(this.Y_i[ind])
-    //         return a
-    //     }  , {x:[], y:[]} )
-    // }
     saveAsJSON(str = 'data.json', data = 'plotlyData') {
         fs.writeFile(str, JSON.stringify(this[data]), function (e) {
             if (e) throw e
@@ -135,3 +123,4 @@ console.log(loopExp.SSR())
 
 loopExp.saveAsJSON('fit.json', 'plotlyFit')
 loopExp.saveAsJSON('data.json')
+system('python3 plot.py').then(console.log).catch(console.error)
