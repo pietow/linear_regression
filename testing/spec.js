@@ -33,4 +33,9 @@ describe('cov function', () => {
     expect(stats.cov([10, 12, 23], [10, 12, 23])).toEqual(stats.variance([10, 12, 23]));
   });
 });
+describe('cov function', () => {
+  it('covariance of two arrays', () => {
+    expect(stats.cov([5, 12, 4, 6], [2, 8, 12, 4]).toFixed(4)).toEqual("0.8333");
+  });
+});
 

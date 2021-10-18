@@ -1,6 +1,7 @@
 let fs = require('fs')
 const system = require('system-commands')
 const stats = require('./stats.js')
+
 ////linear x = O(n)
 const linear = n => {
     let arr = []
@@ -52,6 +53,7 @@ class Regression {
         let r_square = 1 - SSE / SSTO //here must be a bug
 
         // ####################Correlation######################################
+        let corr = stats.cov(y_fit, this.Y) / Math.sqrt(stats.variance(y_fit) * stats.variance(this.Y))
 
         //RESULTS store in data object plotlyFit
         this.plotlyFit = this.X.reduce(
@@ -63,6 +65,8 @@ class Regression {
                 a['sse'] = SSE
                 a['ssto'] = SSTO
                 a['r_sq'] = r_square
+                a['correlation'] = corr
+                a['correlation2'] = corr ** 2
                 return a
             },
             { x: [], y: [] }
