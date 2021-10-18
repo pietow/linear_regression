@@ -1,6 +1,7 @@
 let fs = require('fs')
 const system = require('system-commands')
 const stats = require('./stats.js')
+const logExpriment = require('./logn.js')
 
 ////linear x = O(n)
 const linear = n => {
@@ -18,15 +19,10 @@ class Regression {
 
     X = []
     Y = []
-    // Y_mess = []
-    // Y_i = []
-    // residuals = []
-    // r_sq = 0
     constructor(callback) {
         this.callback = callback
     }
     SSR() {
-        /* SSR = sum of residuals */
         this.X = this.plotlyData.x
         this.Y = this.plotlyData.y
         let avgX = stats.mean(this.X)
@@ -50,7 +46,7 @@ class Regression {
             (a, c) => a + c
         )
         // ####################R^2######################################
-        let r_square = 1 - SSE / SSTO //here must be a bug
+        let r_square = 1 - SSE / SSTO //r^2 === corr^2
 
         // ####################Correlation######################################
         let corr = stats.cov(y_fit, this.Y) / Math.sqrt(stats.variance(y_fit) * stats.variance(this.Y))
@@ -80,6 +76,29 @@ class Regression {
             console.log(`Data is written to ${str}`)
         })
     }
+    logTest(runs, steps) {
+        this.coors = []
+        let X = []
+        let a1 = 0
+        let a2 = 0
+        for (let i = 0; i < runs; i = i + steps) {
+            for (let j = 0; j < 5; j++) {
+                arr = logExpriment.generate(i) 
+                console.log(arr)
+                a1 = performance.now()
+                // this.callback(i)
+                a2 = performance.now()
+                if (j === 0) this.coor.push([i]) // microseconds
+                X.push((a2 - a1) * 1000)
+                a1 = 0
+                a2 = 0
+            }
+            this.coor[i / steps].push(X)
+            X = []
+        }
+        return this.coor
+    }
+
     linearTest(runs, steps) {
         this.coors = []
         let X = []
@@ -123,8 +142,10 @@ class Regression {
 const loopExp = new Regression(linear)
 let result = loopExp.linearTest(1000, 100)
 loopExp.formatCoors()
-console.log(loopExp.SSR())
 
-loopExp.saveAsJSON('fit.json', 'plotlyFit')
-loopExp.saveAsJSON('data.json')
-system('python3 plot.py').then(console.log).catch(console.error)
+
+// console.log(loopExp.SSR())
+
+// loopExp.saveAsJSON('fit.json', 'plotlyFit')
+// loopExp.saveAsJSON('data.json')
+// system('python3 plot.py').then(console.log).catch(console.error)
