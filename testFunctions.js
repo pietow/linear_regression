@@ -1,5 +1,5 @@
 //O(log(n))
-exports.generate = n => {
+exports.arraySize = n => {
     let arr = []
     for (let i = 1; i < n+1; i++) {
         arr.push(i)
@@ -14,8 +14,6 @@ exports.binarySearch = (arr, num) => {
 
     while (startIndex <= endIndex) {
         let pivot = Math.ceil((startIndex + endIndex) / 2)
-        // console.log(arr[pivot])
-        console.log(count)
         count += 1
 
         if (arr[pivot] === num) {
@@ -29,5 +27,11 @@ exports.binarySearch = (arr, num) => {
     return false
 }
 
-// let array = generate(100)
-// console.log(binarySearch(array, 0))
+//O(N)
+exports.forN = (arr, num) => {
+    for (e in arr) {
+    }
+}
+
+let arr = exports.arraySize(10)
+exports.forN(arr)

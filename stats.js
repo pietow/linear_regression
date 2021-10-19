@@ -36,3 +36,4 @@ exports.cov = (arr_x, arr_y) => {
 }
 
 // console.log(exports.stddev([1,2,1]))
+
