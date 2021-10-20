@@ -61,7 +61,8 @@ module.exports = class Laboratorium {
         })
     }
     transformLog(){
-        this.plotData.x = this.plotData.x.map(t => Math.log2(t))
+        // this.plotData.x = this.plotData.x.map(t => Math.log2(t))
+        this.plotData.y = this.plotData.y.map(y => Math.sqrt(Math.pow(y, 2)))
         return [this.plotData.x, this.plotData.y]
     }
     show() {

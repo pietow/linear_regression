@@ -43,12 +43,12 @@ class LinearRegression {
             (a, c, id) => {
                 a['x'].push(c)
                 a['y'].push(y_fit[id])
-                a['m'] = m
-                a['b'] = b
+                a['m'] = m.toFixed(2)
+                a['b'] = b.toFixed(2)
                 a['sse'] = SSE
                 a['ssto'] = SSTO
-                a['r_sq'] = r_square
-                a['correlation'] = corr
+                a['r_sq'] = r_square.toFixed(2)
+                a['correlation'] = corr.toFixed(2)
                 a['correlation2'] = corr ** 2
                 return a
             },
@@ -76,14 +76,15 @@ const ON = testFunctions.arraySize
 // const runner = new Laboratorium(OlogN)
 const runner = new Laboratorium(ON)
 runner.getDataPoints(800, 10)
-// let [X, Y] = runner.formatData()
-runner.formatData()
-let [X, Y] = runner.transformLog()
+let [X, Y] = runner.formatData()
+// runner.formatData()
+// let [X, Y] = runner.transformLog()
 runner.saveAsJSON('data.json')
-// runner.show()
 
 //############LinearRegression#####################
 let model = new LinearRegression()
 console.log(model.fit(X, Y))
 model.saveAsJSON('fit.json')
 model.show()
+
+
