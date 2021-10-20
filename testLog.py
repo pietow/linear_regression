@@ -16,6 +16,7 @@ fig.add_trace(go.Scatter(x=X, y=Y, mode="markers", name="Experiment"))
 df = pd.read_json("fit.json")
 # X = list(map(lambda x: math.log2(x), X))
 Y = np.sqrt(np.power(2, Y))
+Y = (np.power(2, Y))
 fig.add_trace(
     go.Scatter(
         x=X,
